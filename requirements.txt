@@ -4,5 +4,7 @@ ecdsa==0.13
 enum==0.4.6
 gunicorn==19.7.1
 psycopg2==2.7.4
-pytz==2018.3
+pytz==2018.4
+requests==2.18.4
+six==1.11.0
 whitenoise==3.3.1
