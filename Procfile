@@ -1,0 +1,1 @@
+web: gunicorn bitcoinapi.wsgi --log-file -
