@@ -24,6 +24,7 @@ def prepare_signature(request):
 	except:
 		success = "failed"
 		hashes = ""
+		tx = ""
 
 	data = {'hashes': hashes, 'success':success, 'unsigned': tx}
 	return JsonResponse(data)
