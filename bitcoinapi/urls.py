@@ -19,6 +19,7 @@ from api import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/$', views.prepare_signature),
+    url(r'^$', views.home, name='home'),
+    url(r'^api/bitcoin/$', views.prepare_signature, name='bitcoin_api'),
     
 ]

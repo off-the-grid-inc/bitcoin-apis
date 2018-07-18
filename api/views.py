@@ -8,6 +8,9 @@ from ECbitcoin import *
 
 # Create your views here.
 
+def home(request):
+	return render(request, 'homepage.html')
+
 def prepare_signature(request):
 	try:
 		s_address = str(request.GET.get("sender", None))
@@ -19,11 +22,11 @@ def prepare_signature(request):
 		if tx==-1:
 			raise ValueError
 		raw_hashes = prepare_sig(tx, s_address)
-		hashes = [i.encode('hex').upper() for i in raw_hashes]
+		hashes = [i.encode('hex') for i in raw_hashes]
 		success = 'success!'
 	except:
 		success = "failed"
-		hashes = ""
+		hashes = []
 		tx = ""
 
 	data = {'hashes': hashes, 'success':success, 'unsigned': tx}
