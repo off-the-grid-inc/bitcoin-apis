@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
     url(r'^api/bitcoin/$', views.prepare_signature, name='bitcoin_api'),
-    
+    url(r'^api/create-test/$', views.create_testwallet, name='create_testwallet')
 ]

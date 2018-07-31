@@ -28,6 +28,8 @@ def ECsign(h, priv):
 	p1 = k*G 
 	r = p1.x()%N
 	s = mod_inv(k,N)*(h+r*priv)%N
+	if s > N/2:
+		s = N - s
 	return r,s
 
 def ECverify(h, sig, pub):
@@ -129,4 +131,7 @@ def mod_inv(x, p):
         q = - (p / z)
         z, a = (p + q * z), (q * a) % p
     return a
+
+T1 = 694343405282129039542598971331539029274109233570545233614611141232816475682
+TP = "04d3941d56cf6d43363e2a5a4c130583ffafb996d310ae2cab613fd41abf80c648168b919b6e9d9bed132330322c524cb5bd9d7503879c16a476c8ef1b4727d7d2"
 

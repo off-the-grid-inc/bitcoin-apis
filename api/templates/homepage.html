@@ -49,4 +49,18 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size
 		}
 	}
 
+	document.getElementById('create').onclick = function () {
+		$.ajax({
+			url: "{% url 'create_testwallet' %}",
+			success: function (data){
+				text += "[log] new wallet funded! <br>[log] address: " + data.address + "<br>";
+				text += "[log] secret key: " + data.priv + "<br>";
+				text += "[log] <a target='_blank' href='https://testnet.blockchain.info/address/"+data.address+"'> see here </a><br><br>";
+				document.getElementById('log').innerHTML = text;
+				$('#sender').val(data.address);
+				$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy")
+			}
+		});
+	}
+
 </script>
