@@ -4,15 +4,15 @@
 
 <h1 style='text-align: center;'> Murmur Bitcoin Demo </h1>
 
-<button id='start_button'>create a murmur wallet</button> <br><br><br>
+<button id='create'>create a murmur wallet</button> <br><br><br>
 
-Sender: <input type="text" name="" id='sender' size='36'><br>
-Reciever: <input type="text" name="" id='receiver' size='36'><br>
-Amount: <input type="text" name="" id='amount' size='12'><br>
-Fee: <input type="text" name="" id='fee' size='12'><br>
+Sender:&nbsp;&nbsp;&nbsp;<input type="text" name="" id='sender' size='36'><br>
+Reciever:&nbsp;<input type="text" name="" id='receiver' size='36'><br>
+Amount:&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount' size='12'><br>
+Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size='12'><br>
 <button id='start_button'>start</button>
 
-<p id='log'> </p>
+<p id='log' style='word-wrap: break-word;'> </p>
 
 
 <script>
@@ -29,7 +29,7 @@ Fee: <input type="text" name="" id='fee' size='12'><br>
 			data: {'sender': sender, 'amount':amount, 'receiver':receiver, 'fee':fee},
 			success: function (data){
 				sig_hashes = data.hashes;
-				text += "[log] creating transaction:" + data.unsigned + "<br><br>";
+				text += "[log] creating transaction: " + data.unsigned + "<br><br>";
 				for (i = 0; i < sig_hashes.length; i++) {
 					n = i+1;
 				    text += "[log] hash #" + n.toString() + ": " +sig_hashes[i] +  "<br>";

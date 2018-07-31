@@ -109,4 +109,4 @@ venv.bak/
 #Database
 *.sqlite3
 
-.DS_STORE
+.DS_Store
