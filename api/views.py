@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from models import DemoAddress
 import random
+import time
 from TXtool import *
 from ECbitcoin import *
 
@@ -29,11 +30,12 @@ def prepare_signature(request):
 
 def get_testwallet(request):
 	demo_wallet = random.choice(DemoAddress.objects.all())
-	data = {'address': data.address, 'priv':data.privkey, 'pub':data.pubkey}
+	data = {'address': demo_wallet.address, 'priv':demo_wallet.privkey, 'pub':demo_wallet.pubkey}
 	return JsonResponse(data)
 
 def fund_wallets(request):
 	j = 0
+	num = 0
 	while j < 4:
 		try:
 			priv, pt = genECkeypair()
@@ -53,11 +55,13 @@ def fund_wallets(request):
 				a.pubkey = pub
 				a.privkey = hp
 				a.save()
+				num += 1
 		except:
 			pass
 		j += 1
 		time.sleep(.3)
-	data = {'status:', '4 new wallets created'}
+	string = "created %d new wallets" %num
+	data = {'status': string}
 	return JsonResponse(data)
 	
 

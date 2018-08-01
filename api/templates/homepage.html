@@ -25,7 +25,7 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size
 		var amount = $('#amount').val();
 		var sig_hashes = [];
 		$.ajax({
-			url: "{% url 'bitcoin_api' %}",
+			url: "{% url 'prepare_signature' %}",
 			data: {'sender': sender, 'amount':amount, 'receiver':receiver, 'fee':fee},
 			success: function (data){
 				sig_hashes = data.hashes;
@@ -51,11 +51,11 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size
 
 	document.getElementById('create').onclick = function () {
 		$.ajax({
-			url: "{% url 'create_testwallet' %}",
+			url: "{% url 'get_testwallet' %}",
 			success: function (data){
-				text += "[log] new wallet funded! <br>[log] address: " + data.address + "<br>";
+				text += "[log] new wallet created! <br>[log] address: " + data.address + "<br>";
 				text += "[log] secret key: " + data.priv + "<br>";
-				text += "[log] <a target='_blank' href='https://testnet.blockchain.info/address/"+data.address+"'> see here </a><br><br>";
+				text += "[log] <a target='_blank' href='https://testnet.blockchain.info/address/"+data.address+"'> see here</a><br><br>";
 				document.getElementById('log').innerHTML = text;
 				$('#sender').val(data.address);
 				$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy")
