@@ -17,8 +17,8 @@ def home(request):
 def prepare_signature(request):
 	s_address = str(request.GET.get("sender", None))
 	receiver = request.GET.get("receiver", None)
-	amount = int(request.GET.get("amount", None))
-	fee = int(request.GET.get("fee", None))
+	amount = btc2sat(float(request.GET.get("amount", None)))
+	fee = btc2sat(float(request.GET.get("fee", None)))
 	tx = quick_unsigned_tx(s_address, receiver, amount, fee)
 	if tx==-1:
 		raise ValueError
@@ -59,7 +59,7 @@ def fund_wallets(request):
 		except:
 			pass
 		j += 1
-		time.sleep(.3)
+		time.sleep(.33)
 	string = "created %d new wallets" %num
 	data = {'status': string}
 	return JsonResponse(data)

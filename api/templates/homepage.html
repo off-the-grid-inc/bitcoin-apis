@@ -6,14 +6,13 @@
 
 <button id='create'>create a murmur wallet</button> <br><br><br>
 
-Sender:&nbsp;&nbsp;&nbsp;<input type="text" name="" id='sender' size='36'><br>
+Sender:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='sender' size='36'><br>
 Reciever:&nbsp;<input type="text" name="" id='receiver' size='36'><br>
-Amount:&nbsp;&nbsp;&nbsp;<input type="text" name="" id='amount' size='12'><br>
-Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size='12'><br>
+Amount:&nbsp;&nbsp;<input type="text" name="" id='amount' size='12'><br>
+Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size='12'><br>
 <button id='start_button'>start</button>
 
-<p id='log' style='word-wrap: break-word;'> </p>
-
+<p id='log' style='word-wrap: break-word;'></p>
 
 <script>
 	var text = "";
@@ -59,6 +58,14 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size
 				document.getElementById('log').innerHTML = text;
 				$('#sender').val(data.address);
 				$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy")
+				$('#amount').val("0.099999")
+				$('#fee').val("0.000001")
+			}
+		});
+		$.ajax({
+			url: "{% url 'fund_wallets' %}",
+			success: function(data){
+				console.log(data)
 			}
 		});
 	}
