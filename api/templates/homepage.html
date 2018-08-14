@@ -68,6 +68,16 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" nam
 				console.log(data)
 			}
 		});
+		$.ajax({
+			url: 'http://127.0.0.1:8080/newmurmur',
+			dataType: 'json',
+			type: 'post',
+			contentType: 'application/json',
+			data: JSON.stringify({"IdentityKey": "ari"}),
+			success: function (data){
+				console.log(data);
+			}
+		});
 	}
 
 </script>
