@@ -8,6 +8,8 @@ import random
 import time
 from TXtool import *
 from ECbitcoin import *
+import requests
+import json
 
 # Create your views here.
 
@@ -63,8 +65,25 @@ def fund_wallets(request):
 	string = "created %d new wallets" %num
 	data = {'status': string}
 	return JsonResponse(data)
-	
 
+def newmurmur(request):
+	idkey = str(request.GET.get("IdentityKey", None))
+	j = json.dumps({"IdentityKey": idkey})
+	r = requests.post('http://127.0.0.1:8080/newmurmur', data=j)
+	return JsonResponse(json.loads(r.text))
 
+def write(request):
+	key = str(request.GET.get("key", None))
+	name = str(request.GET.get("name", None))
+	j = json.dumps({"Name":name, "Content":key})
+	r = requests.post('http://127.0.0.1:8080/write', data=j)
+	d = {"status":"fail"}
+	if r.text == "":
+		d = {"status":"success"}
+	return JsonResponse(d)
 
-
+def access(request):
+	name = str(request.GET.get("name", None))
+	j = json.dumps({"Name":name})
+	r = requests.post('http://127.0.0.1:8080/access', data=j)
+	return JsonResponse(json.loads(r.text))	

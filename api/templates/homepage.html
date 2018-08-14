@@ -49,35 +49,60 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" nam
 	}
 
 	document.getElementById('create').onclick = function () {
+		a = "";
+		b = "";
+		addr = "";
+		$.ajax({
+			url: '{% url "newmurmur" %}',
+			data: {"IdentityKey": "newId"},
+			success: function (data){
+				text += "[log] new murmur channel created: " + data.ChannelId + "<br>";
+				text += "[log] storing private key...<br>";
+				document.getElementById('log').innerHTML = text;
+			},
+		});
 		$.ajax({
 			url: "{% url 'get_testwallet' %}",
 			success: function (data){
 				text += "[log] new wallet created! <br>[log] address: " + data.address + "<br>";
-				text += "[log] secret key: " + data.priv + "<br>";
 				text += "[log] <a target='_blank' href='https://testnet.blockchain.info/address/"+data.address+"'> see here</a><br><br>";
 				document.getElementById('log').innerHTML = text;
 				$('#sender').val(data.address);
-				$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy")
-				$('#amount').val("0.099999")
-				$('#fee').val("0.000001")
+				$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy");
+				$('#amount').val("0.099999");
+				$('#fee').val("0.000001");
+				a = data.priv;
+				b = data.pub;
+				addr = data.address;
 			}
 		});
+		setTimeout(function (){
+			console.log(a);
+			$.ajax({
+				url: '{% url "write" %}',
+				data: {"key": a, "name": "asdf"},
+				success: function(data){
+					text += "[log] "+ data.status +" <br><br>";
+					document.getElementById('log').innerHTML = text;
+				}
+			});			
+		}, 1000);
 		$.ajax({
 			url: "{% url 'fund_wallets' %}",
 			success: function(data){
 				console.log(data)
 			}
 		});
-		$.ajax({
-			url: 'http://127.0.0.1:8080/newmurmur',
-			dataType: 'json',
-			type: 'post',
-			contentType: 'application/json',
-			data: JSON.stringify({"IdentityKey": "ari"}),
-			success: function (data){
-				console.log(data);
-			}
-		});
+		setTimeout(function (){
+			$.ajax({
+				url: '{% url "access" %}',
+				data: {"name": "asdf"},
+				success: function(data){
+					text += "[log] access check! "+ data.Content +" <br";
+					document.getElementById('log').innerHTML = text;
+				}
+			});			
+		}, 1000);
 	}
 
 </script>
