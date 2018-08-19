@@ -10,7 +10,7 @@ Sender:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='sender' size='36'>
 Reciever:&nbsp;<input type="text" name="" id='receiver' size='36'><br>
 Amount:&nbsp;&nbsp;<input type="text" name="" id='amount' size='12'><br>
 Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size='12'><br>
-<button id='start_button'>start</button>
+<button id='start_button'>send</button>
 
 <p id='log' style='word-wrap: break-word;'></p>
 
@@ -51,12 +51,11 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" nam
 					type: "POST",
 					data: {"name":"key", "pubkey":b, "hashes":data.hashes, "channel":channel},
 					success: function(data){
-						text += "[log] signature: "+ data.Content[0]+"<br>";
+						text += "[log] signature complete!<br><br>";
 						document.getElementById('log').innerHTML = text;
 					}
 				})
 			).done(function(data){
-				console.log(data.Content)
 				$.ajax({
 					url: '{% url "push" %}',
 					type: "POST",
@@ -92,14 +91,13 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" nam
 					document.getElementById('log').innerHTML = text;
 					$('#sender').val(data.address);
 					$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy");
-					$('#amount').val("0.099999");
-					$('#fee').val("0.000001");
+					$('#amount').val("0.09999");
+					$('#fee').val("0.00002");
 					a = data.priv;
 					b = data.pub;
 				}
 			})
 		).done(function (){
-			console.log(a);
 			$.ajax({
 				url: '{% url "write" %}',
 				type: "POST",

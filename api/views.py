@@ -19,7 +19,9 @@ def home(request):
 def prepare_signature(request):
 	s_address = str(request.POST.get("sender", None))
 	receiver = request.POST.get("receiver", None)
-	tx = quick_unsigned_tx(s_address, receiver, btc2sat(0.09), 2000)
+	amount = btc2sat(float(request.POST.get("amount", None)))
+	fee = btc2sat(float(request.POST.get("fee", None)))	
+	tx = quick_unsigned_tx(s_address, receiver, amount, fee)
 	if tx==-1:
 		raise ValueError
 	raw_hashes = prepare_sig(tx, s_address)
@@ -90,7 +92,6 @@ def sign(request):
 	for data in hashes:
 		j = json.dumps({"Name":name, "PubKey": pubkey, "Data": data})
 		r = requests.post('http://127.0.0.1:8080/sigecdsa/'+channel, data=j)
-		print json.loads(r.text)['Content']
 		output.append(json.loads(r.text)['Content'])
 	return JsonResponse({"Content":output})
 

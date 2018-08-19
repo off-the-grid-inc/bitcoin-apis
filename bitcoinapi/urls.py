@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^api/newmurmur/$', views.newmurmur, name='newmurmur'),
     url(r'^api/write/$', views.write, name='write'),
     url(r'^api/sign/$', views.sign, name='sign'),
-    url(r'^api/finish-tx/$', views.finish_tx, name="push"),
+    url(r'^api/finish-tx/$', views.finish_tx, name="push")
 ]
