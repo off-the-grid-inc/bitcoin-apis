@@ -17,11 +17,9 @@ def home(request):
 	return render(request, 'homepage.html')
 
 def prepare_signature(request):
-	s_address = str(request.GET.get("sender", None))
-	receiver = request.GET.get("receiver", None)
-	amount = btc2sat(float(request.GET.get("amount", None)))
-	fee = btc2sat(float(request.GET.get("fee", None)))
-	tx = quick_unsigned_tx(s_address, receiver, amount, fee)
+	s_address = str(request.POST.get("sender", None))
+	receiver = request.POST.get("receiver", None)
+	tx = quick_unsigned_tx(s_address, receiver, btc2sat(0.09), 2000)
 	if tx==-1:
 		raise ValueError
 	raw_hashes = prepare_sig(tx, s_address)
@@ -67,23 +65,48 @@ def fund_wallets(request):
 	return JsonResponse(data)
 
 def newmurmur(request):
-	idkey = str(request.GET.get("IdentityKey", None))
+	idkey = str(request.POST.get("IdentityKey", None))
 	j = json.dumps({"IdentityKey": idkey})
 	r = requests.post('http://127.0.0.1:8080/newmurmur', data=j)
 	return JsonResponse(json.loads(r.text))
 
 def write(request):
-	key = str(request.GET.get("key", None))
-	name = str(request.GET.get("name", None))
+	key = str(request.POST.get("key", None))
+	name = str(request.POST.get("name", None))
+	channel = str(request.POST.get("channel", None))
 	j = json.dumps({"Name":name, "Content":key})
-	r = requests.post('http://127.0.0.1:8080/write', data=j)
+	r = requests.post('http://127.0.0.1:8080/write/'+channel, data=j)
 	d = {"status":"fail"}
 	if r.text == "":
 		d = {"status":"success"}
 	return JsonResponse(d)
 
-def access(request):
-	name = str(request.GET.get("name", None))
-	j = json.dumps({"Name":name})
-	r = requests.post('http://127.0.0.1:8080/access', data=j)
-	return JsonResponse(json.loads(r.text))	
+def sign(request):
+	name = str(request.POST.get("name", None))
+	pubkey = str(request.POST.get("pubkey", None))
+	hashes = request.POST.getlist("hashes[]")
+	channel = str(request.POST.get("channel", None))
+	output = []
+	for data in hashes:
+		j = json.dumps({"Name":name, "PubKey": pubkey, "Data": data})
+		r = requests.post('http://127.0.0.1:8080/sigecdsa/'+channel, data=j)
+		print json.loads(r.text)['Content']
+		output.append(json.loads(r.text)['Content'])
+	return JsonResponse({"Content":output})
+
+def finish_tx(request):
+	pubkey = str(request.POST.get("pubkey", None))
+	sigs = request.POST.getlist("sigs[]")
+	utx = request.POST.get("unsigned", None)
+	hex_sigs = [i.split("*") for i in sigs]
+	raw_sigs = [(int(i[0], 16), int(i[1],16)) for i in hex_sigs]
+	final_sigs = [rawSig2ScriptSig(i, pubkey) for i in raw_sigs]
+	tx = apply_sig(utx, final_sigs)
+	x = pushTX(tx, testnet=True)
+	data = {"txid": "failed"}
+	if x["status"] == "success":
+		data["txid"] = x["data"]["txid"]
+	return JsonResponse(data)
+
+
+

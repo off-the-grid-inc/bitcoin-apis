@@ -21,9 +21,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
     url(r'^api/prepare-bitcoin-sig/$', views.prepare_signature, name='prepare_signature'),
-    url(r'^api/get-test/$', views.get_testwallet, name='get_testwallet'),
+    url(r'^api/get-testwallet/$', views.get_testwallet, name='get_testwallet'),
     url(r'^api/fund-random/$', views.fund_wallets, name='fund_wallets'),
     url(r'^api/newmurmur/$', views.newmurmur, name='newmurmur'),
     url(r'^api/write/$', views.write, name='write'),
-    url(r'^api/access/$', views.access, name='access'),
+    url(r'^api/sign/$', views.sign, name='sign'),
+    url(r'^api/finish-tx/$', views.finish_tx, name="push"),
 ]
