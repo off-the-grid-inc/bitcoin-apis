@@ -33,6 +33,7 @@ def prepare_signature(request):
 def get_testwallet(request):
 	demo_wallet = random.choice(DemoAddress.objects.all())
 	data = {'address': demo_wallet.address, 'priv':demo_wallet.privkey, 'pub':demo_wallet.pubkey}
+	demo_wallet.delete()
 	return JsonResponse(data)
 
 def fund_wallets(request):
