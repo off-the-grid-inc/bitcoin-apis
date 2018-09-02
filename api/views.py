@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from models import DemoAddress
@@ -70,7 +71,7 @@ def fund_wallets(request):
 def newmurmur(request):
 	idkey = str(request.POST.get("IdentityKey", None))
 	j = json.dumps({"IdentityKey": idkey})
-	r = requests.post('http://127.0.0.1:8080/newmurmur', data=j)
+	r = requests.post(settings.MURMUR_API + '/newmurmur', data=j)
 	return JsonResponse(json.loads(r.text))
 
 def write(request):
@@ -78,7 +79,7 @@ def write(request):
 	name = str(request.POST.get("name", None))
 	channel = str(request.POST.get("channel", None))
 	j = json.dumps({"Name":name, "Content":key})
-	r = requests.post('http://127.0.0.1:8080/write/'+channel, data=j)
+	r = requests.post(settings.MURMUR_API + '/write/'+channel, data=j)
 	d = {"status":"fail"}
 	if r.text == "":
 		d = {"status":"success"}
@@ -92,7 +93,7 @@ def sign(request):
 	output = []
 	for data in hashes:
 		j = json.dumps({"Name":name, "PubKey": pubkey, "Data": data})
-		r = requests.post('http://127.0.0.1:8080/sigecdsa/'+channel, data=j)
+		r = requests.post(settings.MURMUR_API + '/sigecdsa/'+channel, data=j)
 		output.append(json.loads(r.text)['Content'])
 	return JsonResponse({"Content":output})
 

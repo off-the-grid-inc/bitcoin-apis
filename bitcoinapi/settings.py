@@ -23,18 +23,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "ajcdiodsfjiJ#)sdjfd")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
+DEBUG = True
+#CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ALLOW_CREDENTIALS = False
 
 ALLOWED_HOSTS = ['*']
 
+# use environnment variable for it.
+if os.environ.get('MURMUR_API_SERVICE_HOST'):
+    MURMUR_API = "http://" + os.environ.get('MURMUR_API_SERVICE_HOST')
+else:
+    MURMUR_API = 'http://127.0.0.1:8080'
 
 # Application definition
 
 INSTALLED_APPS = [
     'api.apps.ApiConfig',
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,12 +48,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
