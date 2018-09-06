@@ -1,18 +1,55 @@
-<head>
-	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-</head>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Murmur Bitcoin Demo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  </head>
 
-<h1 style='text-align: center;'> Murmur Bitcoin Demo </h1>
+  <body>
+    <div id="formWrapper">
+      <div id="form">
+        <div class="toplogo"> <img src="logo.png" /> </div>
+        <div class="logo">
+          <h1>Bitcoin Demo</h1>
+        </div>
+	<div class="form-item">
+	  <p class="formLabel">Sender</p>
+	  <input type="text" name="" id='sender' size='36' class="form-style" autocomplete="off">
+	</div>
 
-<button id='create'>create a murmur wallet</button> <br><br><br>
+	<div class="form-item">
+	  <p class="formLabel">Receiver</p>
+	  <input type="text" name="" id='receiver' size='36' class="form-style" autocomplete="off">
+	</div>
 
-Sender:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='sender' size='36'><br>
-Reciever:&nbsp;<input type="text" name="" id='receiver' size='36'><br>
-Amount:&nbsp;&nbsp;<input type="text" name="" id='amount' size='12'><br>
-Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="" id='fee' size='12'><br>
-<button id='start_button'>send</button>
+	<div class="form-item">
+	  <p class="formLabel">Amount</p>
+	  <input type="text" name="" id='amount' size='12' class="form-style" autocomplete="off">
+	</div>
 
-<p id='log' style='word-wrap: break-word;'></p>
+	<div class="form-item">
+	  <p class="formLabel">Fee</p>
+	  <input type="text" name="" id='fee' size='12' class="form-style" autocomplete="off">
+	</div>
+
+	<div class="form-item btn">
+	  <input type="button" class="login pull-right" value="send" id='start_button'>
+	  <div class="clear-fix"></div>
+	</div>
+
+	<div class="form-item btn">
+	  <input type="button" class="login pull-right" value="create a murmur wallet" id='create'>
+	  <div class="clear-fix"></div>
+	</div>
+      </div>
+    </div>
+
+	<p id='log' style='word-wrap: break-word;'></p>
+
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
 
 <script>
 	var text = "";
@@ -139,3 +176,5 @@ Fee:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" nam
 	     } 
 	});
 </script>
+</body>
+</html>
