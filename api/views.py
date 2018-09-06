@@ -14,7 +14,7 @@ import json
 # Create your views here.
 
 def home(request):
-	return render(request, 'homepage.html')
+	return render(request, 'index.html')
 
 def prepare_signature(request):
 	s_address = str(request.POST.get("sender", None))
