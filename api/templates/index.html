@@ -124,7 +124,7 @@
 	      url: "{% url 'get_testwallet' %}",
 	      success: function (data){
 		text += "[log] new wallet created! <br>[log] address: " + data.address + "<br>";
-		text += "[log] <a target='_blank' href='https://testnet.blockchain.info/address/"+data.address+"'> see here</a><br><br>";
+		text += "[log] <a target='_blank' href='https://live.blockcypher.com/btc-testnet/address/"+data.address+"'> see here</a><br><br>";
 		document.getElementById('log').innerHTML = text;
 		$('p.formLabel').each(function(){
 			 $('p.formLabel').parent().children('.form-style').focus();
