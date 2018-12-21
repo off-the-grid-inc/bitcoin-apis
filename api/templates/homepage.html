@@ -98,7 +98,7 @@
 					type: "POST",
 					data: {"pubkey":b, "sigs": data.Content, "unsigned": utx},
 					success: function(data){
-						text += "[log] txid: <a target='_blank' href='https://testnet.blockchain.info/tx/"+ data.txid+"'> "+data.txid+"</a><br>";
+						text += "[log] txid: <a target='_blank' href='https://live.blockcypher.com/btc-testnet/address/"+ data.txid+"'> "+data.txid+"</a><br>";
 						document.getElementById('log').innerHTML = text;
 					}
 				})
@@ -124,7 +124,7 @@
 				url: "{% url 'get_testwallet' %}",
 				success: function (data){
 					text += "[log] new wallet created! <br>[log] address: " + data.address + "<br>";
-					text += "[log] <a target='_blank' href='https://testnet.blockchain.info/address/"+data.address+"'> see here</a><br><br>";
+					text += "[log] <a target='_blank' href='https://live.blockcypher.com/btc-testnet/address/"+data.address+"'> see here</a><br><br>";
 					document.getElementById('log').innerHTML = text;
 					$('#sender').val(data.address);
 					$('#receiver').val("mfeVwF1taoNGJpT2ozRpuqpYqp37t42SMy");
