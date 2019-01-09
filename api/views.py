@@ -77,7 +77,7 @@ def write(request):
 	key = str(request.POST.get("key", None))
 	name = str(request.POST.get("name", None))
 	channel = str(request.POST.get("channel", None))
-	j = json.dumps({"Name":name, "Content":key})
+	j = json.dumps({"Name":name, "Content":key, "Type":"ECDSA-SECP256k1"})
 	r = requests.post('http://35.203.40.211/write/'+channel, data=j)
 	d = {"status":"fail"}
 	if r.text == "":
