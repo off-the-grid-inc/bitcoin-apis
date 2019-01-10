@@ -68,17 +68,15 @@ def fund_wallets(request):
 	return JsonResponse(data)
 
 def newmurmur(request):
-	idkey = str(request.POST.get("IdentityKey", None))
-	j = json.dumps({"IdentityKey": idkey})
-	r = requests.post('http://35.203.40.211/newmurmur', data=j)
+	j = json.dumps({})
+	r = requests.post('http://35.203.40.211/create', data=j)
 	return JsonResponse(json.loads(r.text))
 
 def write(request):
 	key = str(request.POST.get("key", None))
-	name = str(request.POST.get("name", None))
-	channel = str(request.POST.get("channel", None))
-	j = json.dumps({"Name":name, "Content":key, "Type":"ECDSA-SECP256k1"})
-	r = requests.post('http://35.203.40.211/write/'+channel, data=j)
+	fileId = str(request.POST.get("fileId", None))
+	j = json.dumps({"Name":fileId, "Content":key, "Type":"ECDSA-SECP256k1"})
+	r = requests.post('http://35.203.40.211/write', data=j)
 	d = {"status":"fail"}
 	if r.text == "":
 		d = {"status":"success"}
@@ -88,11 +86,11 @@ def sign(request):
 	name = str(request.POST.get("name", None))
 	pubkey = str(request.POST.get("pubkey", None))
 	hashes = request.POST.getlist("hashes[]")
-	channel = str(request.POST.get("channel", None))
+	fileId = str(request.POST.get("fileId", None))
 	output = []
 	for data in hashes:
-		j = json.dumps({"Name":name, "PubKey": pubkey, "Data": data})
-		r = requests.post('http://35.203.40.211/sigecdsa/'+channel, data=j)
+		j = json.dumps({"Name":fileId, "PubKey": pubkey, "Data": data})
+		r = requests.post('http://35.203.40.211/sigecdsa', data=j)
 		output.append(json.loads(r.text)['Content'])
 	return JsonResponse({"Content":output})
 

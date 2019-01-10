@@ -55,7 +55,7 @@
 	var n = 0;
 	var a = "";
 	var b = "";
-	var channel = "";
+	var fileId = "";
 
 	document.getElementById('start_button').onclick = function () {
 	  var sender = $('#sender').val();
@@ -86,7 +86,7 @@
 	      $.ajax({
 		url: '{% url "sign" %}',
 		type: "POST",
-		data: {"name":"key", "pubkey":b, "hashes":data.hashes, "channel":channel},
+		data: {"name":"key", "pubkey":b, "hashes":data.hashes, "fileId":fileId},
 		success: function(data){
 		  text += "[log] signature complete!<br><br>";
 		  document.getElementById('log').innerHTML = text;
@@ -113,10 +113,10 @@
 	      type: "POST",
 	      data: {"IdentityKey": "newId"},
 	      success: function (data){
-		text += "[log] new murmur channel created: " + data.ChannelId + "<br>";
+		text += "[log] new murmur file created: " + data.FileId + "<br>";
 		text += "[log] storing private key...<br>";
 		document.getElementById('log').innerHTML = text;
-		channel = data.ChannelId;
+		fileId = data.FileId;
 
 	      },
 	    }),
@@ -141,7 +141,7 @@
 	    $.ajax({
 	      url: '{% url "write" %}',
 	      type: "POST",
-	      data: {"key": a, "name": "key", "channel": channel},
+	      data: {"key": a, "fileId": fileId},
 	      success: function(data){
 		text += "[log] "+ data.status +" <br><br>";
 		document.getElementById('log').innerHTML = text;
