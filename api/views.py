@@ -10,6 +10,7 @@ from TXtool import *
 from ECbitcoin import *
 import requests
 import json
+import os
 
 # Create your views here.
 
@@ -69,14 +70,16 @@ def fund_wallets(request):
 
 def newmurmur(request):
 	j = json.dumps({})
-	r = requests.post('http://35.203.40.211/create', data=j)
+	endpoint = os.environ.get('CLIENT_HTTP_ENTPOINT', '')
+	r = requests.post(endpoint+'/create', data=j)
 	return JsonResponse(json.loads(r.text))
 
 def write(request):
 	key = str(request.POST.get("key", None))
 	fileId = str(request.POST.get("fileId", None))
 	j = json.dumps({"Name":fileId, "Content":key, "Type":"ECDSA-SECP256k1"})
-	r = requests.post('http://35.203.40.211/write', data=j)
+	endpoint = os.environ.get('CLIENT_HTTP_ENTPOINT', '')
+	r = requests.post(endpoint+'/write', data=j)
 	d = {"status":"fail"}
 	if r.text == "":
 		d = {"status":"success"}
@@ -88,9 +91,10 @@ def sign(request):
 	hashes = request.POST.getlist("hashes[]")
 	fileId = str(request.POST.get("fileId", None))
 	output = []
+	endpoint = os.environ.get('CLIENT_HTTP_ENTPOINT', '')
 	for data in hashes:
 		j = json.dumps({"Name":fileId, "PubKey": pubkey, "Data": data})
-		r = requests.post('http://35.203.40.211/sigecdsa', data=j)
+		r = requests.post(endpoint+'/sigecdsa', data=j)
 		output.append(json.loads(r.text)['Content'])
 	return JsonResponse({"Content":output})
 
